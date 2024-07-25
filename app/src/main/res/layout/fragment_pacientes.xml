@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.dashboard.DashboardFragment">
+
+    <LinearLayout
+        android:layout_width="513dp"
+        android:layout_height="673dp"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <EditText
+                    android:id="@+id/txtNombre"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp"
+                    android:ems="10"
+                    android:hint="Nombres"
+                    android:inputType="text"
+                    android:text="" />
+
+                <EditText
+                    android:id="@+id/txtApellido"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp"
+                    android:ems="10"
+                    android:hint="Apellidos"
+                    android:inputType="text"
+                    android:text="" />
+
+
+                <EditText
+                    android:id="@+id/txtEdad"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp"
+                    android:ems="10"
+                    android:hint="Edad"
+                    android:inputType="number" />
+
+                <Spinner
+                    android:id="@+id/spnEnfermedad"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp"  />
+
+                <Spinner
+                    android:id="@+id/spnHabitacion"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp" />
+
+                <Spinner
+                    android:id="@+id/spnCama"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp" />
+
+                <Spinner
+                    android:id="@+id/spnMedicamento"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp"/>
+
+                <EditText
+                    android:id="@+id/txtFechaNacimiento"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp"
+                    android:ems="10"
+                    android:hint="Fecha de Nacimiento"
+                    android:inputType="none"
+                    android:editable="false"
+                    android:text="" />
+
+                <EditText
+                    android:id="@+id/txtHoraMedicamento"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp"
+                    android:ems="10"
+                    android:hint="Hora de medicamento"
+                    android:inputType="none"
+                    android:editable="false"
+                    android:text="" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="345dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="34dp"
+                    android:text="Button" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
