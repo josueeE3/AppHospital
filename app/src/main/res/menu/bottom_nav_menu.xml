@@ -3,13 +3,15 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_paciente"
-        android:title="Agregar paciente" />
+        android:icon="@drawable/ic_ver_pacientes"
+        android:title="Ver pacientes"
+        />
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_ver_pacientes"
-        android:title="Ver pacientes" />
+        android:icon="@drawable/ic_paciente"
+        android:title="Agregar paciente"
+         />
 
 
 </menu>

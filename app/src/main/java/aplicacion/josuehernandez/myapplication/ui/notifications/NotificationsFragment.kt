@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import aplicacion.josuehernandez.myapplication.R
 import aplicacion.josuehernandez.myapplication.databinding.FragmentNotificationsBinding
 
 class NotificationsFragment : Fragment() {
@@ -18,15 +19,21 @@ class NotificationsFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_notifications, container, false)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val nombre = arguments?.getString("Nombre")
+        val apellido = arguments?.getString("Apellido")
+        val edad = arguments?.getString("Edad")
+        val uuidEnfermedad = arguments?.getString("UUID_enfermedad")
+        val uuidHabitacion = arguments?.getString("UUID_habitacion")
+        val uuidCama = arguments?.getString("UUID_cama")
+        val uuidMedicamento = arguments?.getString("UUID_medicamento")
+        val fechaNacimiento = arguments?.getString("FechaNacimiento")
+        val horaMedicamento = arguments?.getString("HoraMedicamento")
+
 
 
         return root
