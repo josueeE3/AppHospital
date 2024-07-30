@@ -31,6 +31,11 @@ import java.util.Locale
 class AdaptadorPaciente(private var Datos: List<Paciente>) : RecyclerView.Adapter<ViewHolderPaciente>() {
 
 
+    fun actualizarRecyclerView(nuevaLista: List<Paciente>) {
+        Datos = nuevaLista
+        notifyDataSetChanged()
+    }
+
     fun eliminarPaciente(nombre: String, posicion: Int){
         val listadoDatos = Datos.toMutableList()
         listadoDatos.removeAt(posicion)
@@ -86,7 +91,9 @@ class AdaptadorPaciente(private var Datos: List<Paciente>) : RecyclerView.Adapte
             //1- Creo un objeto de la clase conexion
             val objConexion = Conexion().cadenaConexion()
 
-            val updatePaciente = objConexion?.prepareStatement("update Paciente set Nombre = ? , Apellido = ? , Edad = ? ,UUID_enfermedad = ? ,UUID_habitacion = ? ,UUID_cama = ? ,UUID_medicamento = ? ,FechaNacimiento = ? , HoraMedicamento = ?   where UUID_paciente = ?")!!
+
+
+            val updatePaciente = objConexion?.prepareStatement("update Paciente set Nombre = ? , Apellido = ? , Edad = ? ,UUID_enfermedad = ? ,UUID_habitacion = ? ,UUID_cama = ? ,UUID_medicamento = ? ,FechaNacimiento = ? , HoraMedicamento = ? where UUID_paciente = ?")!!
             updatePaciente.setString(1, nuevoNombre)
             updatePaciente.setString(2, nuevoApellido)
             updatePaciente.setString(3, nuevaEdad)
@@ -122,6 +129,7 @@ class AdaptadorPaciente(private var Datos: List<Paciente>) : RecyclerView.Adapte
         holder.txtEdadPaciente.text = paciente.edad
         holder.txtEnfermedadPaciente.text = paciente.enfermedad
 
+
         holder.imgEditar.setOnClickListener{
 
             val alertDialogBuilder = AlertDialog.Builder(holder.itemView.context)
@@ -148,22 +156,33 @@ class AdaptadorPaciente(private var Datos: List<Paciente>) : RecyclerView.Adapte
             var spinnerCama: Spinner? = null
             var spinnerMedicamento: Spinner? = null
 
+            var enfermedades: List<Enfermedades> = emptyList()
+            var habitaciones: List<Num_Habitacion> = emptyList()
+            var camas: List<Num_cama> = emptyList()
+            var medicamentos: List<Medicamento> = emptyList()
+
 
 
             GlobalScope.launch(Dispatchers.IO) {
-                val enfermedades: List<Enfermedades> = DashboardFragment().getEnfermedad()
-                val habitaciones: List<Num_Habitacion> = DashboardFragment().getNumHabitacion()
-                val camas: List<Num_cama> = DashboardFragment().getNumCama()
-                val medicamentos: List<Medicamento> = DashboardFragment().getMedicamento()
+                 enfermedades = DashboardFragment().getEnfermedad()
+                 habitaciones = DashboardFragment().getNumHabitacion()
+                 camas = DashboardFragment().getNumCama()
+                 medicamentos = DashboardFragment().getMedicamento()
+
+
 
                 withContext(Dispatchers.Main) {
                     spinnerEnfermedad = Spinner(holder.itemView.context).apply {
                         adapter = ArrayAdapter(
                             holder.itemView.context,
                             android.R.layout.simple_spinner_item,
-                            enfermedades
+                            enfermedades.map { it.nombre }
                         ).apply {
                             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        }
+                        val enfermedadPosicion = enfermedades.indexOfFirst { it.uuid == paciente.enfermedad }
+                        if (enfermedadPosicion >= 0) {
+                            setSelection(enfermedadPosicion)
                         }
                     }
                     layout.addView(spinnerEnfermedad)
@@ -172,9 +191,13 @@ class AdaptadorPaciente(private var Datos: List<Paciente>) : RecyclerView.Adapte
                         adapter = ArrayAdapter(
                             holder.itemView.context,
                             android.R.layout.simple_spinner_item,
-                            habitaciones
+                            habitaciones.map { it.NumHabitacion } // Mapea para mostrar números de habitación
                         ).apply {
                             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        }
+                        val habitacionPosicion = habitaciones.indexOfFirst { it.uuid == paciente.habitacion }
+                        if (habitacionPosicion >= 0) {
+                            setSelection(habitacionPosicion)
                         }
                     }
                     layout.addView(spinnerHabitacion)
@@ -184,9 +207,13 @@ class AdaptadorPaciente(private var Datos: List<Paciente>) : RecyclerView.Adapte
                         adapter = ArrayAdapter(
                             holder.itemView.context,
                             android.R.layout.simple_spinner_item,
-                            camas
+                            camas.map { it.NumCama } // Mapea para mostrar números de cama
                         ).apply {
                             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        }
+                        val camaPosicion = camas.indexOfFirst { it.uuid == paciente.cama }
+                        if (camaPosicion >= 0) {
+                            setSelection(camaPosicion)
                         }
                     }
                     layout.addView(spinnerCama)
@@ -195,9 +222,13 @@ class AdaptadorPaciente(private var Datos: List<Paciente>) : RecyclerView.Adapte
                         adapter = ArrayAdapter(
                             holder.itemView.context,
                             android.R.layout.simple_spinner_item,
-                            medicamentos
+                            medicamentos.map { it.nombre }
                         ).apply {
                             setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        }
+                        val medicamentoPosicion = medicamentos.indexOfFirst { it.uuid == paciente.medicamento }
+                        if (medicamentoPosicion >= 0) {
+                            setSelection(medicamentoPosicion)
                         }
                     }
                     layout.addView(spinnerMedicamento)
@@ -267,10 +298,10 @@ class AdaptadorPaciente(private var Datos: List<Paciente>) : RecyclerView.Adapte
                 val nuevoNombre = inputNombre.text.toString().trim()
                 val nuevoApellido = inputApellido.text.toString().trim()
                 val nuevaEdad = inputEdad.text.toString().trim()
-                val nuevaEnfermedad = spinnerEnfermedad?.selectedItem.toString()
-                val nuevaHabitacion = spinnerHabitacion?.selectedItem.toString()
-                val nuevaCama = spinnerCama?.selectedItem.toString()
-                val nuevoMedicamento = spinnerMedicamento?.selectedItem.toString()
+                val nuevaEnfermedad = enfermedades[spinnerEnfermedad?.selectedItemPosition ?: 0].uuid
+                val nuevaHabitacion = habitaciones[spinnerHabitacion?.selectedItemPosition ?: 0].uuid
+                val nuevaCama = camas[spinnerCama?.selectedItemPosition ?: 0].uuid
+                val nuevoMedicamento = medicamentos[spinnerMedicamento?.selectedItemPosition ?: 0].uuid
                 val nuevaFecha = inputFecha.text.toString().trim()
                 val nuevaHora = inputHora.text.toString().trim()
 
